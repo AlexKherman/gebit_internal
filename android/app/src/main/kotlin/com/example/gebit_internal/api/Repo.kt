@@ -1,6 +1,6 @@
 package com.example.gebit_internal.api
 
-import com.example.gebit_internal.model.PaymentInfo
+import com.example.gebit_internal.model.Payment
 import com.example.gebit_internal.model.json.PaymentDetails
 import com.example.gebit_internal.model.request.AmountRequestEntity
 import com.example.gebit_internal.model.request.ArticlePositionRequestEntity
@@ -20,15 +20,13 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import java.util.*
+import java.util.UUID
 
-class Repo(private val service: Api) {
-
-    var authorizationToken: String? = null
+class Repo(private val service: Api, var authorizationToken: String?) {
 
     val gson = Gson()
 
-    val paymentInfo = PaymentInfo()
+    val paymentInfo = Payment()
 
     suspend fun start(): Response<StartResponseEntity> = withContext(Dispatchers.IO)
 
@@ -66,7 +64,7 @@ class Repo(private val service: Api) {
             )
         )
 
-        service.start(startRequestEntity)
+        service.start(startRequestEntity, authorizationToken)
     }
 
     suspend fun createOrder(): Response<CreateOrderResponseEntity> {
@@ -89,7 +87,7 @@ class Repo(private val service: Api) {
                 paymentDetails = gson.toJson(paymentDetails)
             )
         )
-        return withContext(Dispatchers.IO) { service.createOrder(createOrderRequestEntity) }
+        return withContext(Dispatchers.IO) { service.createOrder(createOrderRequestEntity, authorizationToken) }
     }
 
     suspend fun finalize(): Response<CompleteResponseEntity> {
@@ -105,7 +103,7 @@ class Repo(private val service: Api) {
                 paymentDetails = gson.toJson(paymentDetails)
             )
         )
-        return withContext(Dispatchers.IO) { service.complete(completeRequestEntity) }
+        return withContext(Dispatchers.IO) { service.complete(completeRequestEntity, authorizationToken) }
     }
 
     suspend fun cancel(): Response<CancelResponseEntity> {
@@ -121,6 +119,6 @@ class Repo(private val service: Api) {
                 paymentDetails = gson.toJson(paymentDetails)
             )
         )
-        return withContext(Dispatchers.IO) { service.cancel(cancelRequestEntity) }
+        return withContext(Dispatchers.IO) { service.cancel(cancelRequestEntity, authorizationToken) }
     }
 }

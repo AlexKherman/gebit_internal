@@ -14,7 +14,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 class MainActivity : FlutterActivity(), MethodChannel.MethodCallHandler, Subscriber,
 EventChannel.StreamHandler{
 
-    private var eventSink: EventChannel.EventSink? = null
+    private var eventSink: EventSink? = null
 
     private lateinit var methodChannel: MethodChannel
 
@@ -47,8 +47,12 @@ EventChannel.StreamHandler{
     override fun onMethodCall(call: MethodCall, result: Result) {
         if (call.method.equals("getAuthorizationTokenMethod")) {
             val paymentData = call.arguments as HashMap<String, String>
+            println("${paymentData.keys}  ${paymentData.values}")
             val intent = Intent(this, KlarnaActivity::class.java)
-            intent.putExtra("paymentData", paymentData)
+            for (key in paymentData.keys){
+                intent.putExtra(key, paymentData[key])
+            }
+//            intent.putExtra("paymentData", paymentData)
             startActivity(intent)
         } else {
             result.notImplemented()

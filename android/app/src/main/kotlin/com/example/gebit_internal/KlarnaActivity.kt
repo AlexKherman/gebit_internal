@@ -1,8 +1,7 @@
 package com.example.gebit_internal
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -23,15 +22,15 @@ class KlarnaActivity : AppCompatActivity(), KlarnaPaymentViewCallback {
 
     private lateinit var binding: ActivityKlarnaBinding
 
-    private val paymentData by lazy {
-        intent.getSerializableExtra("paymentData")
-    }
+    private lateinit var authorizationToken: String
 
-    private var repo: Repo = Repo(RetrofitInstance.service)
+    private lateinit var repo: Repo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        authorizationToken = intent.getStringExtra("authorizationToken")!!
+        repo = Repo(RetrofitInstance.service, authorizationToken)
         binding = ActivityKlarnaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -72,17 +71,41 @@ class KlarnaActivity : AppCompatActivity(), KlarnaPaymentViewCallback {
             }
             cancelBtn.setOnClickListener {
                 lifecycleScope.launch {
-                    repo.cancel()
+                    withContext(Dispatchers.IO) {
+                        val response = repo.cancel()
+                        if (response.isSuccessful) {
+                            if (response.body()?.paymentStatus == "VOIDED") {
+
+                            }
+                        } else {
+
+                        }
+
+                    }
                 }
             }
             createOrderBtn.setOnClickListener {
                 lifecycleScope.launch {
-                    repo.createOrder()
+                    withContext(Dispatchers.IO) {
+                        val response = repo.createOrder()
+                        if (response.isSuccessful) {
+
+                        } else {
+
+                        }
+                    }
                 }
             }
             payBtn.setOnClickListener {
-                lifecycleScope.launch{
-                    repo.finalize()
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val response = repo.finalize()
+                        if (response.isSuccessful) {
+
+                        } else {
+
+                        }
+                    }
                 }
             }
         }
@@ -100,6 +123,7 @@ class KlarnaActivity : AppCompatActivity(), KlarnaPaymentViewCallback {
         finalizedRequired: Boolean?
     ) {
         repo.authorizationToken = authToken
+        Toast.makeText(this, "AUTH complete", Toast.LENGTH_SHORT).show()
         if (authToken != null) {
             Observer.updateData("Success")
         } else {

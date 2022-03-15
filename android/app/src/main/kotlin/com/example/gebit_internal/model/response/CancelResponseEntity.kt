@@ -1,6 +1,5 @@
 package com.example.gebit_internal.model.response
 
-import com.example.gebit_internal.model.response.AmountResponseEntity
 import com.google.gson.annotations.SerializedName
 
 data class CancelResponseEntity(

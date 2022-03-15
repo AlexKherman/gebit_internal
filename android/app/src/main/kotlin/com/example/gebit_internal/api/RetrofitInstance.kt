@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://74ff-86-57-235-139.ngrok.io/payment/api/payments/")//http://localhost:9000
+        .baseUrl("https://fbcf-86-57-235-139.ngrok.io/payment/api/payments/")//http://localhost:9000
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
