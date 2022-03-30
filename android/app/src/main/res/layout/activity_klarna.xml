@@ -4,50 +4,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/linearLayout"
+    android:layout_marginBottom="18dp"
     android:orientation="vertical">
 
     <com.klarna.mobile.sdk.api.payments.KlarnaPaymentView
         android:id="@+id/payment_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.9" />
+
+    <TextView
+        android:id="@+id/tvPaymentInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/authorize_btn"
-        android:enabled="false"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Authorize" />
+        android:layout_marginVertical="4dp"
+        android:background="@drawable/button_background_black_half_transparent"
+        android:enabled="false"
+        android:text="Authorize"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/create_order_btn"
-        android:visibility="gone"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Create Order" />
+        android:layout_marginVertical="4dp"
+        android:background="@drawable/button_background_black"
+        android:text="Create Order"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/pay_btn"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        android:text="Pay" />
+        android:layout_marginTop="140dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/button_background_black"
+        android:drawableStart="@drawable/ic_klarna_logo_white"
+        android:paddingHorizontal="36dp"
+        android:paddingStart="8dp"
+        android:text="Pay"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/cancel_btn"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        android:text="Cancel" />
+        android:layout_marginVertical="4dp"
+        android:background="@drawable/button_background_white"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/back_btn"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Back" />
+        android:layout_marginVertical="4dp"
+        android:background="@drawable/button_background_white"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 </androidx.appcompat.widget.LinearLayoutCompat>

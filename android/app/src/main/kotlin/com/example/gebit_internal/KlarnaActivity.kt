@@ -1,10 +1,13 @@
 package com.example.gebit_internal
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import com.example.gebit_internal.api.Repo
 import com.example.gebit_internal.api.RetrofitInstance
@@ -137,6 +140,10 @@ class KlarnaActivity : AppCompatActivity(), KlarnaPaymentViewCallback {
                         with(binding) {
                             createOrderBtn.visibility = View.GONE
                             payBtn.visibility = View.VISIBLE
+                            paymentView.visibility = View.GONE
+                            tvPaymentInfo.text = "Total to pay:\n${response.body()?.articlePositions?.get(0)?.unitPrice?.value ?: ""} €"
+                            tvPaymentInfo.setBackgroundColor(Color.parseColor("#ffb5c8"))
+                            linearLayout.gravity = Gravity.BOTTOM
                         }
                     }
 
@@ -256,12 +263,14 @@ class KlarnaActivity : AppCompatActivity(), KlarnaPaymentViewCallback {
         repo.authorizationToken = authToken
         if (authToken != null) {
             Observer.updateData("Success")
-            showInfoAlertDialog("Authorization successful!", false)
+            showInfoAlertDialog("Successfully authorized!", false)
             with(binding) {
                 authorizeBtn.visibility = View.GONE
                 backBtn.visibility = View.GONE
                 createOrderBtn.visibility = View.VISIBLE
                 cancelBtn.visibility = View.VISIBLE
+                tvPaymentInfo.text = "Successfully authorized"
+                tvPaymentInfo.visibility = View.VISIBLE
             }
 
         } else {
@@ -352,6 +361,7 @@ class KlarnaActivity : AppCompatActivity(), KlarnaPaymentViewCallback {
 
     override fun onLoaded(view: KlarnaPaymentView) {
         binding.authorizeBtn.isEnabled = true
+        binding.authorizeBtn.background = AppCompatResources.getDrawable(this, R.drawable.button_background_black)
     }
 
     override fun onReauthorized(view: KlarnaPaymentView, approved: Boolean, authToken: String?) {
