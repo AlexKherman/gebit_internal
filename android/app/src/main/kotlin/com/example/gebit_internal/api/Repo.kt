@@ -1,5 +1,6 @@
 package com.example.gebit_internal.api
 
+import android.util.Log
 import com.example.gebit_internal.model.Payment
 import com.example.gebit_internal.model.json.PaymentDetails
 import com.example.gebit_internal.model.request.AmountRequestEntity
@@ -25,18 +26,17 @@ import java.util.UUID
 class Repo(private val service: Api, var authorizationToken: String?) {
 
     val gson = Gson()
-
     val paymentInfo = Payment()
+    private val clientTransactionID = UUID.randomUUID().toString()
 
-    suspend fun start(): Response<StartResponseEntity> = withContext(Dispatchers.IO)
+    suspend fun start(): Response<StartResponseEntity> = withContext(Dispatchers.IO) {
 
-    {
         val startRequestEntity = StartRequestEntity(
             PaymentDetailsRequestEntity(
                 paymentContext = "mobileScanning",
                 referenceID = "someBasketId",
                 clientID = "",
-                clientTransactionID = UUID.randomUUID().toString(),
+                clientTransactionID = clientTransactionID,
                 paymentDetails = "",
                 referencePaymentID = "someReferencePaymentId",
                 paymentProvider = "klarna",
@@ -63,18 +63,20 @@ class Repo(private val service: Api, var authorizationToken: String?) {
                 automaticCapture = false
             )
         )
-
+        Log.d("payment_request_debug", "$startRequestEntity")
         service.start(startRequestEntity, authorizationToken)
     }
 
+
     suspend fun createOrder(): Response<CreateOrderResponseEntity> {
-        val paymentDetails = PaymentDetails(authorizationToken = paymentInfo.authorizationToken ?: "")
+        val paymentDetails = PaymentDetails(authorizationToken = authorizationToken ?: "")
+        Log.d("payment_request_debug", "Token: $authorizationToken")
         val createOrderRequestEntity = CreateOrderRequestEntity(
             updateRequest = UpdateRequestEntity(
                 paymentID = paymentInfo.paymentId ?: "",
-                transactionID = "aca4eada-273d-4b07-8a97-6888e596adaa",
+                transactionID = null,
                 clientID = "",
-                clientTransactionId = UUID.randomUUID().toString(),
+                clientTransactionId = clientTransactionID,
                 amount = AmountRequestEntity(
                     currency = "EUR",
                     value = 230,
@@ -87,13 +89,14 @@ class Repo(private val service: Api, var authorizationToken: String?) {
                 paymentDetails = gson.toJson(paymentDetails)
             )
         )
-        return withContext(Dispatchers.IO) { service.createOrder(createOrderRequestEntity, authorizationToken) }
+        Log.d("payment_request_debug", Gson().toJson(createOrderRequestEntity))
+        return withContext(Dispatchers.IO) { service.createOrder(createOrderRequestEntity) }
     }
 
     suspend fun finalize(): Response<CompleteResponseEntity> {
         val paymentDetails = PaymentDetails(
             customerToken = paymentInfo.customerToken,
-            authorizationToken = paymentInfo.authorizationToken ?: ""
+            authorizationToken = authorizationToken ?: ""
         )
         val completeRequestEntity = CompleteRequestEntity(
             completeRequest = CompleteEntity(
@@ -103,7 +106,8 @@ class Repo(private val service: Api, var authorizationToken: String?) {
                 paymentDetails = gson.toJson(paymentDetails)
             )
         )
-        return withContext(Dispatchers.IO) { service.complete(completeRequestEntity, authorizationToken) }
+        Log.d("payment_request_debug", completeRequestEntity.toString())
+        return withContext(Dispatchers.IO) { service.complete(completeRequestEntity) }
     }
 
     suspend fun cancel(): Response<CancelResponseEntity> {
@@ -119,6 +123,6 @@ class Repo(private val service: Api, var authorizationToken: String?) {
                 paymentDetails = gson.toJson(paymentDetails)
             )
         )
-        return withContext(Dispatchers.IO) { service.cancel(cancelRequestEntity, authorizationToken) }
+        return withContext(Dispatchers.IO) { service.cancel(cancelRequestEntity) }
     }
 }

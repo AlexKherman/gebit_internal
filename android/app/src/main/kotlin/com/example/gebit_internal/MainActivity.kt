@@ -20,16 +20,12 @@ EventChannel.StreamHandler{
 
     private lateinit var eventChannel: EventChannel
 
-    val eventChannekHandler = EventChannelHandler()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Observer.addSubscriber(this)
         methodChannel.setMethodCallHandler(this)
         eventChannel.setStreamHandler(this)
-
-//        eventChannel.setStreamHandler(this)
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -52,11 +48,15 @@ EventChannel.StreamHandler{
             for (key in paymentData.keys){
                 intent.putExtra(key, paymentData[key])
             }
-//            intent.putExtra("paymentData", paymentData)
             startActivity(intent)
         } else {
             result.notImplemented()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Observer.removeSub(this)
     }
 
     override fun update(data: String) {

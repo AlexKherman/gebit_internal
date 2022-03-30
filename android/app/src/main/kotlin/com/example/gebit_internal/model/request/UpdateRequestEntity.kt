@@ -1,13 +1,12 @@
 package com.example.gebit_internal.model.request
 
-import com.example.gebit_internal.model.request.AmountRequestEntity
 import com.google.gson.annotations.SerializedName
 
 data class UpdateRequestEntity(
     @SerializedName("paymentId")
     val paymentID: String,
     @SerializedName("transactionId")
-    val transactionID: String,
+    val transactionID: String?,
     @SerializedName("clientId")
     val clientID: String,
     @SerializedName("clientTransactionId")

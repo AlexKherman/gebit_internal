@@ -11,13 +11,11 @@ import com.example.gebit_internal.model.response.StartResponseEntity
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface Api {
 
     @POST("online/start")
-//    @Headers("X-RP-Authentication: eyJ0eXAiOiJKV1QiLCJzdWJqZWN0VHlwZSI6ImN1c3RvbWVyIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJlMTdiYTllNC1iMDkzLTRkMGItOTQ4Ni0xNjEzNmE3NTlmNmQiLCJyb2xlcyI6W10sImlzcyI6ImN1c3RvbWVyLWFwaSIsImlhdCI6MTYyOTIwMDc3Nn0.Ts_Wqlp35TsKHrrFz3OXA702wxRa9gX6x9N9BBWfPe8")
     suspend fun start(
         @Body startRequestEntity: StartRequestEntity,
         @Header("X-RP-Authentication") authorizationKey: String?
@@ -25,19 +23,16 @@ interface Api {
 
     @POST("online/void")
     suspend fun cancel(
-        @Body cancelRequestEntity: CancelRequestEntity,
-        @Header("X-RP-Authentication") authorizationKey: String?
+        @Body cancelRequestEntity: CancelRequestEntity
     ): Response<CancelResponseEntity>
 
     @POST("online/complete")
     suspend fun complete(
-        @Body completeRequestEntity: CompleteRequestEntity,
-        @Header("X-RP-Authentication") authorizationKey: String?
+        @Body completeRequestEntity: CompleteRequestEntity
     ): Response<CompleteResponseEntity>
 
     @POST("online/update")
-    fun createOrder(
-        @Body createOrderRequestEntity: CreateOrderRequestEntity,
-        @Header("X-RP-Authentication") authorizationKey: String?
+    suspend fun createOrder(
+        @Body createOrderRequestEntity: CreateOrderRequestEntity
     ): Response<CreateOrderResponseEntity>
 }

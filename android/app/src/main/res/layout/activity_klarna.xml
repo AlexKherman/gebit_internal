@@ -14,7 +14,8 @@
 
     <Button
         android:id="@+id/authorize_btn"
-        android:layout_width="wrap_content"
+        android:enabled="false"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Authorize" />
@@ -22,30 +23,30 @@
     <Button
         android:id="@+id/create_order_btn"
         android:visibility="gone"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Create Order" />
 
     <Button
-        android:id="@+id/cancel_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:text="Cancel" />
-
-    <Button
         android:id="@+id/pay_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
         android:text="Pay" />
 
     <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="Cancel" />
+
+    <Button
         android:id="@+id/back_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Back" />

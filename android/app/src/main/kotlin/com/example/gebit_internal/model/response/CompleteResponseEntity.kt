@@ -1,6 +1,5 @@
 package com.example.gebit_internal.model.response
 
-import com.example.gebit_internal.model.response.AmountResponseEntity
 import com.google.gson.annotations.SerializedName
 
 data class CompleteResponseEntity(
@@ -34,7 +33,7 @@ data class CompleteResponseEntity(
     val paymentProvider: String?,
     @SerializedName("paymentVariant")
     val paymentVariant: String?,
-    @SerializedName("paymentVariant")
+    @SerializedName("paymentVariant2")
     val welcomeDescription: String?,
     @SerializedName("articlePositions")
     val articlePositions: List<AmountResponseEntity>?,

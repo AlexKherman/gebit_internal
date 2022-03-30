@@ -14,9 +14,14 @@ data class PaymentDetails (
     @SerializedName("locale")
     val locale:String = "en-GB",
     @SerializedName("billing_address")
-    val billingAddress:String ="",
+    val billingAddress:BillingAddress? = BillingAddress(),
     @SerializedName("description")
     val description:String = "MySaaS subscription",
     @SerializedName("intended_use")
     val intendedUse:String = "subscription"
 )
+
+data class BillingAddress (
+    @SerializedName("billing_address")
+    val billingAddress:String? = null
+        )

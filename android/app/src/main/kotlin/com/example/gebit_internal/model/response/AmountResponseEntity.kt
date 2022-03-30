@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class AmountResponseEntity(
     @SerializedName("currency")
-    val currency:String?,
+    var currency:String?,
     @SerializedName("value")
-    val value : Int?,
+    var value : Int?,
     @SerializedName("scale")
-    val scale: Int?
+    var scale: Int?
 )
